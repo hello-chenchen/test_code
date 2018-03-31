@@ -1,4 +1,4 @@
-package main.java.com.hello_chenchen.util;
+package main.java.com.hello_chenchen.call_super_class_method;
 
 /**
  * @description: A的父类，同时继承C类的func方法
