@@ -4,13 +4,18 @@ using namespace std;
 
 class ParentClass {
     public:
-    virtual int func() {
-        cout << "ParemtClass func" << endl;
-        return 0;
-    }
+        virtual ~ParentClass() {
+            cout << "~ ParentClass" << endl;
+        }
+    public:
+    virtual int func() = 0;
 };
 
 class SubAClass : public ParentClass {
+    public:
+        ~SubAClass() {
+            cout << "~ SubAClass" << endl;
+        }
     public:
     int func() {
         cout << "SubAClass func" << endl;
@@ -20,6 +25,10 @@ class SubAClass : public ParentClass {
 
 class SubBClass : public ParentClass {
     public:
+        ~SubBClass() {
+            cout << "~ SubBClass" << endl;
+        }
+    public:
     int func() {
         cout << "SubBClass func" << endl;
         return 2;
@@ -27,8 +36,14 @@ class SubBClass : public ParentClass {
 };
 
 int main() {
-    ParentClass *c1 = new SubAClass();
-    ParentClass *c2 = new SubBClass();
-    c1->func();
-    c2->func();
+    ParentClass *c = new ParentClass{
+        virtual int func(){}
+    };
+    // ParentClass *c1 = new SubAClass();
+    // ParentClass *c2 = new SubBClass();
+    // c1->func();
+    // c2->func();
+    c->func();
+
+    // delete c1;
 }
