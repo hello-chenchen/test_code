@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -9,11 +10,15 @@ class ParentClass {
         }
     public:
     virtual int func() = 0;
+
+    private:
+        auto_ptr cc;
 };
 
 class SubAClass : public ParentClass {
     public:
         ~SubAClass() {
+            size_t c ;
             cout << "~ SubAClass" << endl;
         }
     public:
