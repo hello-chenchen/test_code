@@ -1,5 +1,7 @@
-main: point.o
-	gcc -o main point.o
+objs = point.o
+
+main: $(objs)
+	gcc -o main $(objs)
 
 point.o : point.c
 	gcc -c point.c
