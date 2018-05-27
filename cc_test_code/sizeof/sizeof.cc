@@ -1,7 +1,21 @@
 #include <iostream>
 #include <string>
 #include <malloc.h>
-using namespace std;  
+using namespace std;
+
+class CTest
+{
+	public:
+		CTest(){
+		}
+		virtual void mem_fun(){
+            cout << "asdf" << endl;
+        }
+	private:
+		char m_chData;
+		int m_nData;
+		static char s_chData;
+};
 
 int func() {
     string s = "hellohw";
@@ -16,7 +30,9 @@ int func() {
     cout<<sizeof(s3)<<endl;
     cout<<sizeof(s4)<<endl;
     cout<<sizeof(s5)<<endl;
-    cout<<sizeof(1)<<endl;
+    void (CTest::*p)();
+    cout<<"p:" << sizeof(CTest)<<endl;
+    cout<<sizeof(int*)<<endl;
 
     free(s4);
     free(s5);
