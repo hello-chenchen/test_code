@@ -1,9 +1,10 @@
 CC = g++
-CFLAGS = -g -I ../construct-destruct/inc
+PRO_DIR = ../construct-destruct
+INC_DIR = $(PRO_DIR)/inc
+SRC_DIR = $(PRO_DIR)/src
+CFLAGS = -g -I $(PRO_DIR)/inc
 TARGET = main
 OBJS = class_define.o main.o
-
-TARGET=main
 
 ${TARGET}:${OBJS}
 	$(CC) -o $(TARGET) $(OBJS) $(CFLAGS)
