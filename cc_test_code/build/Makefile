@@ -1,23 +1,14 @@
-project_dir = ../construct-destruct
-inc_dir = $(project_dir)/inc
-src_dir = $(project_dir)/src
-objs_dir = ../objs/construct-destruct
+CC = g++
+CFLAGS = -g -I ../construct-destruct/inc
+TARGET = main
+OBJS = class_define.o main.o
 
-objs = $(objs_dir)/class_define.o\
-		$(objs_dir)/main.o
+TARGET=main
 
-# $(objs): %.o: %.cc: %.h
-# 	@echo "####################"
-# 	@echo "start compile"
-# 	g++ -I $< -c $< -o $@
-# 	@echo "end compile"
-# 	@echo "####################"
-../objs/construct-destruct/class_define.o: $(inc_dir)/class_define.h \
-	$(src_dir)/class_define.cc
-	$(CXX) $(CFLAGS) -c $< -o $@
-
-# main: $(objs)
-# 	g++ -o main $(objs)
+${TARGET}:${OBJS}
+	$(CC) -o $(TARGET) $(OBJS) $(CFLAGS)
+$(OBJS):%.o:../construct-destruct/src/%.cc
+	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
-	rm $(objs) main
+	rm -rf $(TARGET) *.o
