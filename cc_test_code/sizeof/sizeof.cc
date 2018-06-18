@@ -33,6 +33,7 @@ int func() {
     void (CTest::*p)();
     cout<<"p:" << sizeof(CTest)<<endl;
     cout<<sizeof(int*)<<endl;
+    std::string aa;
 
     free(s4);
     free(s5);
