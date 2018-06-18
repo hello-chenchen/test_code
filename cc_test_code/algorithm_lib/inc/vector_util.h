@@ -4,7 +4,7 @@
 #include "algorithm_def.h"
 
 namespace cc_alogrithm_lib {
-    class vectorUtil {
+    class vector_util {
         public:
         template <typename Comparable>
         static int binarySearch(const vector<Comparable> & allItems, const Comparable & item){

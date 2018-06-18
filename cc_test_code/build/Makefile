@@ -4,7 +4,7 @@ INC_DIR = $(PRO_DIR)/inc
 SRC_DIR = $(PRO_DIR)/src
 CFLAGS = -g -I $(PRO_DIR)/inc
 TARGET = main
-OBJS = vectorUtil.o main.o
+OBJS = vector_util.o main.o
 # OBJS1 =  class_e.o
 
 ${TARGET}:${OBJS}# ${OBJS1}
