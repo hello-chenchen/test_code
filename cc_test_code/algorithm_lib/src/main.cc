@@ -9,7 +9,7 @@ int func() {
     cc.push_back(2);
     cc.push_back(4);
     cc.push_back(5);
-    cout<< cc_alogrithm_lib::vector_util::binarySearch(cc, 3) << endl;
+    cout<< vector_util<int>::binarySearch(cc, 3) << endl;
 }
 
 int main(int argc, char const *argv[])

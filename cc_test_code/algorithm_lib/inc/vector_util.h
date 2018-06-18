@@ -2,11 +2,11 @@
 #define CC_BINARY_SEARCH_H
 #include <vector>
 #include "algorithm_def.h"
-
+using namespace std;
 namespace cc_alogrithm_lib {
+    template <class Comparable>
     class vector_util {
         public:
-        template <typename Comparable>
         static int binarySearch(const vector<Comparable> & allItems, const Comparable & item){
             int low = 0, high = allItems.size() - 1;
             while(low <= high) {
