@@ -1,4 +1,4 @@
-// #include "binary_search.h"
+// #include "vectorUtil.h"
 //     template <typename Comparable>
 //     static int vectorTool::binarySearch(const vector<Comparable> & allItems, const Comparable & item){
 //             int low = 0, high = allItems.size() - 1;
