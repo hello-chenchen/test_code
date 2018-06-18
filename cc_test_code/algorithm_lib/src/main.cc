@@ -1,7 +1,7 @@
 #include <vector>
 #include <iostream>
 #include "vector_util.h"
-// using namespace cc_alogrithm_lib;
+using namespace cc_alogrithm_lib;
 
 int func() {
     vector<int> cc;
