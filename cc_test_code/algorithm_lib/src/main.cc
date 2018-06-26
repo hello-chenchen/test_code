@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
-#include "vector_util.h"
+#include "../inc/vector_util.h"
+#include "../inc/container_util.h"
 using namespace cc_alogrithm_lib;
 
 int func() {
@@ -9,7 +10,14 @@ int func() {
     cc.push_back(2);
     cc.push_back(4);
     cc.push_back(5);
-    cout<< vector_util<int>::binarySearch(cc, 3) << endl;
+    // cout<< vector_util<int>::binarySearch(cc, 3) << endl;
+
+    container_util::changeElement(cc, 100);
+    vector<int>::iterator itr = cc.begin();
+    while(itr != cc.end()) {
+        cout<< *cc.begin() << endl;
+        ++itr;
+    }
 }
 
 int main(int argc, char const *argv[])
