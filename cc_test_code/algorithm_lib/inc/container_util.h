@@ -12,6 +12,9 @@ namespace cc_alogrithm_lib {
         static void changeElement(Container & c, const Object & element) {
             typename Container::iterator itr=c.begin();
             while( itr != c.end() ){
+                cout << *itr << endl;
+                cout << element << endl;
+                // cout << c.end() << endl;
                 *itr++ = element;
             }
         };

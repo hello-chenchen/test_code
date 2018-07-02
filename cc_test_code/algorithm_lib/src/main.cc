@@ -15,7 +15,7 @@ int func() {
     container_util::changeElement(cc, 100);
     vector<int>::iterator itr = cc.begin();
     while(itr != cc.end()) {
-        cout<< *cc.begin() << endl;
+        cout<< *itr << endl;
         ++itr;
     }
 }
