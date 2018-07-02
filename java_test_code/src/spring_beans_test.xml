@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    <bean id="springBeansTest" class="main.java.com.hello_chenchen.spring_beans_test.SpringBeansTest">
+        <!--<property name="param1" value="chenchen"/>-->
+        <!--<constructor-arg ref="param2"/>-->
+        <!--<property name="param2" ref="param2"/>-->
+    </bean>
+    <bean id="param2" class="main.java.com.hello_chenchen.spring_beans_test.ParamValue1"/>
+</beans>
