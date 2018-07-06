@@ -21,5 +21,6 @@
         "system_error": "cpp",
         "type_traits": "cpp",
         "typeinfo": "cpp"
-    }
+    },
+    "python.pythonPath": "C:\\Users\\hello\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe"
 }

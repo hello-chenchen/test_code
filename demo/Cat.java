@@ -1,9 +1,6 @@
 package main.java.com.qunar.linux_cmd;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * @description:
@@ -51,11 +48,11 @@ public class Cat extends LinuxBash {
         //正则表达式优先级范围从小到大
         regexMap.put(CommonExecuteEnum.None, "^$");
 
-        regexMap.put(CatExecute.OptionAndFile, "^ -(A|b|e|E|n|s|t|T|u|v) \\s{0,}|\\S|{1,}|\\s\\S{0,}");
+        regexMap.put(CatExecute.OptionAndFile, "^-(A|b|e|E|n|s|t|T|u|v) \\s{0,}|\\S|{1,}|\\s\\S{0,}");
 
         //@TODO: RegexDirFiles 的正则表达式暂不实现
 
-        regexMap.put(CatExecute.OnlyFile, "^ \\s{0,}|\\S|{1,}|\\s\\S{0,}");
+        regexMap.put(CatExecute.OnlyFile, "^\\s{0,}|\\S|{1,}|\\s\\S{0,}");
     }
 
     @Override
@@ -102,11 +99,35 @@ public class Cat extends LinuxBash {
     }
 
     private String catFile(String cmdParam) {
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println("debugLog:File path:" + cmdParam);
 
-        return null;
+        String filePath = cmdParam;
+        File inputFile = new File(filePath);
+        if(!inputFile.exists()) {
+            System.out.println("debugLog:Cat catFile file is not exist");
+            return "Cat:" + cmdParam + ": No Such file or directory";
+        }
+
+        BufferedReader bufferedReader = null;
+        StringBuffer readLineBuf = new StringBuffer();
+        try {
+            bufferedReader = new BufferedReader(new FileReader(inputFile));
+            String readLine = null;
+            while((readLine = bufferedReader.readLine()) != null) {
+                System.out.println(readLine);
+                readLineBuf.append(readLine + System.getProperty("line.separator"));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return "cat:" + cmdParam + ": No Such file or directory";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return readLineBuf.toString();
     }
 
-    //@TODO: 待实现
+    //@TODO: 待实现，处理文件夹正则。例如:/Dir/*.txt
     private String catRegexDirFiles(String regexParam) {
         return "Cat catRegexDirFiles method";
     }

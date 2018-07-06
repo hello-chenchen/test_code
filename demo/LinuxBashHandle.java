@@ -11,7 +11,7 @@ public class LinuxBashHandle {
             return commandLine + ": command not found";
         }
 
-        return bashInstance.execute(commandLine.substring(commandItem[0].length()));
+        return bashInstance.execute(commandLine.substring(commandItem[0].length()).trim());
     }
 
     private String handlePipeCommand(String command, String strInPut) {
