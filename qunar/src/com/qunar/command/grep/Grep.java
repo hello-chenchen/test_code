@@ -166,8 +166,11 @@ public class Grep extends LinuxCmd {
             return;
         }
 
-        String result = BaseUtil.readFiles(linuxCmdFileList);
-        String[] operateLines = operateObject.split(System.getProperty("line.separator"));
+        String result = null;
+        for (LinuxCmdFile item : linuxCmdFileList) {
+            result += item.readFiles();
+        }
+        String[] operateLines = result.split(System.getProperty("line.separator"));
 
         StringBuffer readLineBuf = new StringBuffer();
         for (int i = 0; i < operateLines.length; i++) {

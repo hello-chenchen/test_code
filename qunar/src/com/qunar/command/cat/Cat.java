@@ -1,4 +1,4 @@
-package com.qunar.command;
+package com.qunar.command.cat;
 
 import com.qunar.command.CommandOption;
 import com.qunar.command.ExecuteType;
@@ -47,16 +47,16 @@ public class Cat extends LinuxCmd {
     //FIXME:为了实现execute和optionHandle的反射必须实例化无参构造函数
     public Cat() {}
 
-//    public Cat(String standardInPut) {
-//        this.executeType = CommonExecuteType.standardInPutHandle;
-//        this.operateObject = standardInPut;
-//    }
-//
-//    public Cat(Set<CommandOption> options, String standardInPut) {
-//        this.executeType = CommonExecuteType.optionAndStandardInPutHandle;
-//        this.operateObject = standardInPut;
-//        this.optionList = options;
-//    }
+    public Cat(String standardInPut) {
+        this.executeType = CommonExecuteType.standardInPutHandle;
+        this.operateObject = standardInPut;
+    }
+
+    public Cat(Set<CommandOption> options, String standardInPut) {
+        this.executeType = CommonExecuteType.optionAndStandardInPutHandle;
+        this.operateObject = standardInPut;
+        this.optionList = options;
+    }
 
     public Cat(LinuxCmdFile... files) {
         init();
@@ -110,7 +110,11 @@ public class Cat extends LinuxCmd {
             return;
         }
 
-        this.operateObject = BaseUtil.readFiles(linuxCmdFileList);
+        String result = null;
+        for (LinuxCmdFile item : linuxCmdFileList) {
+            result += item.readFiles();
+        }
+        this.operateObject = result;
     }
 
     public void optionAndFilesHandle() {
@@ -120,7 +124,14 @@ public class Cat extends LinuxCmd {
 
     public void directorysHandle() {
         //TODO:
+        String result = null;
+        for (LinuxCmdDir linuxCmdDirItem : linuxCmdDirList) {
+            for (LinuxCmdFile linuxCmdFileItem : linuxCmdDirItem.listDirFiles()) {
+                result += linuxCmdFileItem.readFiles();
+            }
+        }
 
+        this.operateObject = result;
     }
 
     public void optionAndDirectorysHandle() {
@@ -129,28 +140,13 @@ public class Cat extends LinuxCmd {
     }
 
     public void optionAndAHandle() {
-        String[] operateLines = operateObject.split(System.getProperty("line.separator"));
-
-        StringBuffer readLineBuf = new StringBuffer();
-        for (int i = 0; i < operateLines.length; i++) {
-            String replaceLine = operateLines[i].replaceAll("\t", "^I");
-            readLineBuf.append(replaceLine + "$" + System.getProperty("line.separator"));
-        }
-
-        this.operateObject = readLineBuf.toString();
+        this.operateObject = operateObject.replaceAll("\t", "^I")
+                .replaceAll(System.getProperty("line.separator"), "\\$" + System.getProperty("line.separator"));
     }
 
     public void optionAndEHandle() {
-        String[] operateLines = operateObject.split(System.getProperty("line.separator"));
-
-        StringBuffer readLineBuf = new StringBuffer();
-        for (int i = 0; i < operateLines.length; i++) {
-//            String replaceLine = operateLines[i]
-//                    .replaceAll(System.getProperty("line.separator"), "$");
-            readLineBuf.append(operateLines[i] + "$" + System.getProperty("line.separator"));
-        }
-
-        this.operateObject = readLineBuf.toString();
+        this.operateObject = operateObject
+                .replaceAll(System.getProperty("line.separator"), "\\$" + System.getProperty("line.separator"));
     }
 
     public void optionAndeHandle() {
@@ -158,15 +154,7 @@ public class Cat extends LinuxCmd {
     }
 
     public void optionAndTHandle() {
-        String[] operateLines = operateObject.split(System.getProperty("line.separator"));
-
-        StringBuffer readLineBuf = new StringBuffer();
-        for (int i = 0; i < operateLines.length; i++) {
-            String replaceLine = operateLines[i].replaceAll("\t", "^I");
-            readLineBuf.append(replaceLine + System.getProperty("line.separator"));
-        }
-
-        this.operateObject = readLineBuf.toString();
+        this.operateObject = operateObject.replaceAll("\t", "^I");
     }
 
     public void optionAndtHandle() {

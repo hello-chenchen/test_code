@@ -1,12 +1,15 @@
 package com.qunar;
 
-import com.qunar.command.Cat;
+import com.qunar.command.cat.Cat;
 import com.qunar.command.CommandOption;
 import com.qunar.command.grep.Grep;
+import com.qunar.command.grep.GrepPattern;
 import com.qunar.handle.CommandHandle;
+import com.qunar.linux_base.LinuxCmdDir;
 import com.qunar.linux_base.LinuxCmdFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -14,34 +17,30 @@ import java.util.TreeSet;
 public class mainRun {
 
     public static void func() {
-        LinuxCmdFile linuxCmdFile = new LinuxCmdFile("D:/demo/1/README.md");
+        LinuxCmdFile linuxCmdFile = new LinuxCmdFile("D:/demo/7/README.md");
+        LinuxCmdFile linuxCmdFile1 = new LinuxCmdFile("D:/demo/7/README1.md");
         Set<CommandOption> commandOptionSet = new TreeSet<CommandOption>();
         commandOptionSet.add(Cat.CatExecuteOption.optionAndnHandle);
-        commandOptionSet.add(Cat.CatExecuteOption.optionAndEHandle);
-        Cat cat = new Cat(commandOptionSet, linuxCmdFile);
-//        Grep grep = new Grep()
+        commandOptionSet.add(Cat.CatExecuteOption.optionAndAHandle);
+        LinuxCmdDir linuxCmdDir = new LinuxCmdDir("D:/demo/7/README.md",LinuxCmdDir.FilterType.SuffixType, ".md");
+        Cat cat = new Cat(commandOptionSet, linuxCmdDir);
+        Cat cat1 = new Cat(commandOptionSet, "");
+        GrepPattern grepPattern = new GrepPattern("chenchen");
+        Grep grep = new Grep(grepPattern, "");
         CommandHandle commandHandle = new CommandHandle(cat);
         System.out.println(commandHandle.execute());
     }
 
-    public static String func1() {
-        File inputFile = new File("D:/demo/1/README.md");
+    public static void func1() {
+        File file = new File("D:/git/test_code/demo");
 
-        BufferedReader bufferedReader = null;
-        StringBuffer readLineBuf = new StringBuffer();
-        try {
-            bufferedReader = new BufferedReader(new FileReader(inputFile));
-            String readLine = null;
-            while((readLine = bufferedReader.readLine()) != null) {
-                System.out.println(readLine);
-                readLineBuf.append(readLine + System.getProperty("line.separator"));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for(File item : file.listFiles()) {
+            System.out.println(item.getAbsolutePath());
         }
-        return readLineBuf.toString();
+
+        String cc= "asdf*ccc";
+        System.out.println(cc.replaceAll("\\*", ".*"));
+        System.out.println(cc.matches("a.*c"));
     }
 
     public static void main(String[] args) {
