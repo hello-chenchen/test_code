@@ -5,9 +5,7 @@ import com.qunar.command.ExecuteType;
 import com.qunar.command.LinuxCmd;
 import com.qunar.linux_base.LinuxCmdDir;
 import com.qunar.linux_base.LinuxCmdFile;
-import com.qunar.linux_util.BaseUtil;
 
-import java.io.*;
 import java.util.Set;
 
 /**
@@ -82,8 +80,9 @@ public class Grep extends LinuxCmd {
     private GrepPattern grepPattern = null;
     //TODO：功能太多,仅实现-n
     //TODO: 未实现的功能很多，待扩展
+    //FIXME: optionHandle调用方法的时候,CommandOption的顺序排序
     public enum GrepExecuteOption implements CommandOption {
-        optionAndnHandle;
+        optionAndrHandle, optionAndRHandle, optionAndnHandle;
     }
 
     public enum GrepExecuteType implements ExecuteType {
@@ -98,15 +97,15 @@ public class Grep extends LinuxCmd {
         init();
         this.executeType = CommonExecuteType.standardInPutHandle;
         this.grepPattern = grepPattern;
-        this.operateObject = standardInPut;
+        this.cacheOperateObject = standardInPut;
     }
 
     public Grep(GrepPattern grepPattern, Set<CommandOption> options, String standardInPut) {
         init();
         this.executeType = CommonExecuteType.optionAndStandardInPutHandle;
         this.grepPattern = grepPattern;
-        this.operateObject = standardInPut;
-        this.optionList = options;
+        this.cacheOperateObject = standardInPut;
+        this.optionSet = options;
     }
 
     public Grep(GrepPattern grepPattern, LinuxCmdFile... files) {
@@ -122,7 +121,7 @@ public class Grep extends LinuxCmd {
         init();
         this.executeType = GrepExecuteType.optionAndFilesHandle;
         this.grepPattern = grepPattern;
-        this.optionList = options;
+        this.optionSet = options;
         for (LinuxCmdFile item : files) {
             linuxCmdFileList.add(item);
         }
@@ -141,7 +140,7 @@ public class Grep extends LinuxCmd {
         init();
         this.grepPattern = grepPattern;
         this.executeType = GrepExecuteType.optionAndDirectorysHandle;
-        this.optionList = options;
+        this.optionSet = options;
         for (LinuxCmdDir item : dirPath) {
             linuxCmdDirList.add(item);
         }
@@ -159,38 +158,48 @@ public class Grep extends LinuxCmd {
         }
     }
 
-    public void filesHandle() {
-        //TODO:
-        if(linuxCmdFileList.size() <= 0) {
-            System.out.println("debugLog:Grep No Such Files");
-            return;
-        }
-
-        String result = null;
-        for (LinuxCmdFile item : linuxCmdFileList) {
-            result += item.readFiles();
-        }
-        String[] operateLines = result.split(System.getProperty("line.separator"));
+    private String grepHandle(String lines) {
+        String[] operateLines = lines.split(System.getProperty("line.separator"));
 
         StringBuffer readLineBuf = new StringBuffer();
         for (int i = 0; i < operateLines.length; i++) {
             if(operateLines[i].matches(grepPattern.getFilterParam())
                     || operateLines[i].contains(grepPattern.getFilterParam())) {
-                readLineBuf.append(operateLines[i]);
+                readLineBuf.append(operateLines[i] + System.getProperty("line.separator"));
             }
         }
 
-        this.operateObject = readLineBuf.toString();
+        return readLineBuf.toString();
+    }
+
+    public void filesHandle() {
+        if(linuxCmdFileList.size() <= 0) {
+            System.out.println("debugLog:Grep No Such Files");
+            return;
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (LinuxCmdFile item : linuxCmdFileList) {
+            result .append(item.readLines());
+        }
+
+        this.cacheOperateObject = grepHandle(result.toString());
     }
 
     public void optionAndFilesHandle() {
-        //TODO:
         filesHandle();
         super.optionHandle();
     }
 
     public void directorysHandle() {
-        //TODO:
+        StringBuilder result = new StringBuilder();
+        for (LinuxCmdDir linuxCmdDirItem : linuxCmdDirList) {
+            for (LinuxCmdFile linuxCmdFileItem : linuxCmdDirItem.listDirFiles()) {
+                result.append(linuxCmdFileItem.readLines());
+            }
+        }
+
+        this.cacheOperateObject = grepHandle(result.toString());
     }
 
     public void optionAndDirectorysHandle() {
@@ -199,35 +208,62 @@ public class Grep extends LinuxCmd {
     }
 
     public void optionAndnHandle() {
-        String[] operateLines = operateObject.split(System.getProperty("line.separator"));
+        String[] operateLines = cacheOperateObject.split(System.getProperty("line.separator"));
 
         StringBuffer readLineBuf = new StringBuffer();
         for (int i = 0; i < operateLines.length; i++) {
             String replaceLine = i + ": " + operateLines[i];
-            readLineBuf.append(replaceLine);
+            readLineBuf.append(replaceLine + System.getProperty("line.separator"));
         }
 
-        this.operateObject = readLineBuf.toString();
+        this.cacheOperateObject = readLineBuf.toString();
+    }
+
+    //FIXME: 由于递归查找的特殊性，所以优先选择递归文件夹，如果文件夹无数据则查找缓存数据
+    public void optionAndrHandle() {
+        String temp = "";
+        if(linuxCmdDirList.size() > 0) {
+            StringBuilder result = new StringBuilder();
+            for (LinuxCmdDir linuxCmdDirItem : linuxCmdDirList) {
+                for (LinuxCmdFile linuxCmdFileItem : linuxCmdDirItem.listRecursionDirFiles()) {
+                    result.append(linuxCmdFileItem.readLines());
+                }
+            }
+            temp = result.toString();
+        } else {
+            temp = cacheOperateObject;
+        }
+
+        this.cacheOperateObject = grepHandle(temp);
+    }
+
+    public void optionAndRHandle() {
+        optionAndrHandle();
     }
 
     @Override
     public void standardInPutHandle() {
-        //TODO:
-        String[] operateLines = operateObject.split(System.getProperty("line.separator"));
+        String[] operateLines = cacheOperateObject.split(System.getProperty("line.separator"));
 
         StringBuffer readLineBuf = new StringBuffer();
         for (int i = 0; i < operateLines.length; i++) {
             if(operateLines[i].matches(grepPattern.getFilterParam())
                     || operateLines[i].contains(grepPattern.getFilterParam())) {
-                readLineBuf.append(operateLines[i]);
+                readLineBuf.append(operateLines[i] + System.getProperty("line.separator"));
             }
         }
 
-        this.operateObject = readLineBuf.toString();
+        this.cacheOperateObject = readLineBuf.toString();
     }
 
     @Override
     public void optionAndStandardInPutHandle() {
-        //TODO:
+        standardInPutHandle();
+        super.optionHandle();
+    }
+
+    @Override
+    public boolean checkOptions() {//暂无冲突项
+        return false;
     }
 }

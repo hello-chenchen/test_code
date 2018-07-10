@@ -5,10 +5,7 @@ import com.qunar.command.ExecuteType;
 import com.qunar.command.LinuxCmd;
 import com.qunar.linux_base.LinuxCmdDir;
 import com.qunar.linux_base.LinuxCmdFile;
-import com.qunar.linux_util.BaseUtil;
 
-import java.io.*;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,6 +31,7 @@ import java.util.Set;
 public class Cat extends LinuxCmd {
     //TODO：功能太多,仅实现-A, -E, -T, -t, -n
     //TODO: 未实现的功能:optionAndbHandle,optionAndsHandle,optionAnduHandle,optionAndvHandle
+    //FIXME: optionHandle调用方法的时候,CommandOption的顺序排序
     public enum CatExecuteOption implements CommandOption {
         optionAndAHandle, optionAndeHandle, optionAndEHandle, optionAndnHandle,
         optionAndtHandle, optionAndTHandle;
@@ -49,13 +47,13 @@ public class Cat extends LinuxCmd {
 
     public Cat(String standardInPut) {
         this.executeType = CommonExecuteType.standardInPutHandle;
-        this.operateObject = standardInPut;
+        this.cacheOperateObject = standardInPut;
     }
 
     public Cat(Set<CommandOption> options, String standardInPut) {
         this.executeType = CommonExecuteType.optionAndStandardInPutHandle;
-        this.operateObject = standardInPut;
-        this.optionList = options;
+        this.cacheOperateObject = standardInPut;
+        this.optionSet = options;
     }
 
     public Cat(LinuxCmdFile... files) {
@@ -69,7 +67,7 @@ public class Cat extends LinuxCmd {
     public Cat(Set<CommandOption> options, LinuxCmdFile... files) {
         init();
         this.executeType = CatExecuteType.optionAndFilesHandle;
-        this.optionList = options;
+        this.optionSet = options;
         for (LinuxCmdFile item : files) {
             linuxCmdFileList.add(item);
         }
@@ -86,7 +84,7 @@ public class Cat extends LinuxCmd {
     public Cat(Set<CommandOption> options, LinuxCmdDir... dirPath) {
         init();
         this.executeType = CatExecuteType.optionAndDirectorysHandle;
-        this.optionList = options;
+        this.optionSet = options;
         for (LinuxCmdDir item : dirPath) {
             linuxCmdDirList.add(item);
         }
@@ -110,11 +108,11 @@ public class Cat extends LinuxCmd {
             return;
         }
 
-        String result = null;
+        StringBuilder result = new StringBuilder();
         for (LinuxCmdFile item : linuxCmdFileList) {
-            result += item.readFiles();
+            result.append(item.readLines());
         }
-        this.operateObject = result;
+        this.cacheOperateObject = result.toString();
     }
 
     public void optionAndFilesHandle() {
@@ -123,54 +121,19 @@ public class Cat extends LinuxCmd {
     }
 
     public void directorysHandle() {
-        //TODO:
-        String result = null;
+        StringBuilder result = new StringBuilder();
         for (LinuxCmdDir linuxCmdDirItem : linuxCmdDirList) {
             for (LinuxCmdFile linuxCmdFileItem : linuxCmdDirItem.listDirFiles()) {
-                result += linuxCmdFileItem.readFiles();
+                result.append(linuxCmdFileItem.readLines());
             }
         }
 
-        this.operateObject = result;
+        this.cacheOperateObject = result.toString();
     }
 
     public void optionAndDirectorysHandle() {
         directorysHandle();
         super.optionHandle();
-    }
-
-    public void optionAndAHandle() {
-        this.operateObject = operateObject.replaceAll("\t", "^I")
-                .replaceAll(System.getProperty("line.separator"), "\\$" + System.getProperty("line.separator"));
-    }
-
-    public void optionAndEHandle() {
-        this.operateObject = operateObject
-                .replaceAll(System.getProperty("line.separator"), "\\$" + System.getProperty("line.separator"));
-    }
-
-    public void optionAndeHandle() {
-        optionAndEHandle();
-    }
-
-    public void optionAndTHandle() {
-        this.operateObject = operateObject.replaceAll("\t", "^I");
-    }
-
-    public void optionAndtHandle() {
-        optionAndTHandle();
-    }
-
-    public void optionAndnHandle() {
-        String[] operateLines = operateObject.split(System.getProperty("line.separator"));
-
-        StringBuffer readLineBuf = new StringBuffer();
-        for (int i = 0; i < operateLines.length; i++) {
-            String replaceLine = (i + 1) + ": " + operateLines[i];
-            readLineBuf.append(replaceLine + System.getProperty("line.separator"));
-        }
-
-        this.operateObject = readLineBuf.toString();
     }
 
     @Override
@@ -182,5 +145,44 @@ public class Cat extends LinuxCmd {
     public void optionAndStandardInPutHandle() {
         System.out.println("debugLog:Cat optionAndStandardInPutHandle");
         super.optionHandle();
+    }
+
+    @Override
+    public boolean checkOptions() {//暂无冲突项
+        return false;
+    }
+
+    public void optionAndAHandle() {
+        this.cacheOperateObject = cacheOperateObject.replaceAll("\t", "^I")
+                .replaceAll(System.getProperty("line.separator"), "\\$" + System.getProperty("line.separator"));
+    }
+
+    public void optionAndEHandle() {
+        this.cacheOperateObject = cacheOperateObject
+                .replaceAll(System.getProperty("line.separator"), "\\$" + System.getProperty("line.separator"));
+    }
+
+    public void optionAndeHandle() {
+        optionAndEHandle();
+    }
+
+    public void optionAndTHandle() {
+        this.cacheOperateObject = cacheOperateObject.replaceAll("\t", "^I");
+    }
+
+    public void optionAndtHandle() {
+        optionAndTHandle();
+    }
+
+    public void optionAndnHandle() {
+        String[] operateLines = cacheOperateObject.split(System.getProperty("line.separator"));
+
+        StringBuffer readLineBuf = new StringBuffer();
+        for (int i = 0; i < operateLines.length; i++) {
+            String replaceLine = (i + 1) + ": " + operateLines[i];
+            readLineBuf.append(replaceLine + System.getProperty("line.separator"));
+        }
+
+        this.cacheOperateObject = readLineBuf.toString();
     }
 }
