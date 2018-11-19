@@ -6,6 +6,23 @@ class Example extends React.Component {
         this.state = {date: new Date()};
     }
 
+    componentDidMount() {
+        this.timerID1 = setInterval(
+            () => this.tick(),
+            1000
+        );
+    }
+     
+    componentWillUnmount() {
+        clearInterval(this.timerID1);
+    }
+    
+    tick() {
+        this.setState({
+            date: new Date()
+        });
+    }
+
     render() {
         return (
             <div>
