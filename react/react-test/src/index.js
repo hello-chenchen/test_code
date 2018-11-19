@@ -6,8 +6,10 @@ import Example from './Example';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+const element = <Example />;
 ReactDOM.render(
-    <Example />,
+    element,
     document.getElementById('example')
 );
 
