@@ -1,5 +1,16 @@
 import React from 'react';
 
+class FormattedDate extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {date : props.date};
+    }
+
+    render() {
+        return <h2>time now: {this.props.date.toLocaleTimeString()}.</h2>;
+    }
+}
+
 class Example extends React.Component {
     constructor(props) {
         super(props);
@@ -27,7 +38,7 @@ class Example extends React.Component {
         return (
             <div>
                 <h1>Hello, {this.props.name}!</h1>
-                <h2> time now: {this.state.date.toLocaleTimeString()} </h2>
+                <FormattedDate date={this.state.date} />
             </div>
         );
     }
