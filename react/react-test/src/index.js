@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-const element = <Example />;
+const element = <Example name="World"/>;
 ReactDOM.render(
     element,
     document.getElementById('example')
