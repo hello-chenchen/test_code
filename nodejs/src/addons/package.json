@@ -1,0 +1,23 @@
+{
+  "name": "binding",
+  "version": "0.0.1",
+  "description": "based on electron and webpack",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hello-chenchen/electron-webpack.git"
+  },
+  "author": "hello_chenchen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hello-chenchen/electron-webpack/issues"
+  },
+  "homepage": "https://github.com/hello-chenchen/electron-webpack#readme",
+  "devDependencies": {
+    "electron": "^3.0.12",
+    "electron-rebuild": "^1.8.2",
+    "node": "^10.13.0",
+    "node-gyp": "^3.8.0"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,25 @@
+<oj-select-one :id="[['operator_' + cell.data.id]]" :aria-label="[[stringRes.ariaSelectOperator]]" class="oj-approvals-rule-operator oj-complete"
+    style="min-width:6em; max-width:6em" tabindex="-1" options="[[cell.data.operatorsDropDownList]]" value="{{cell.data.operator}}"
+    required="" id="operator_condition_0_0" aria-label="Operator list">
+    <div class="oj-select oj-component oj-enabled oj-select-jet oj-form-control oj-required" id="ojChoiceId_operator_condition_0_0"
+        style="min-width:6em; max-width:6em">
+        <div class="oj-select-choice" tabindex="0" role="combobox" aria-autocomplete="none" aria-expanded="false" id="oj-select-choice-operator_condition_0_0"
+            aria-describedby="ojChoiceId_operator_condition_0_0_selected" aria-label="Operator list" aria-required="true">
+            <span class="oj-select-chosen" id="ojChoiceId_operator_condition_0_0_selected">is blank</span> <abbr class="oj-select-search-choice-close"
+                role="presentation"></abbr> <a class="oj-select-arrow oj-component-icon oj-clickable-icon-nocontext oj-select-open-icon"
+                role="presentation"></a></div>
+        <div class="oj-listbox-drop" style="display:none" role="dialog" data-oj-containerid="ojChoiceId_operator_condition_0_0">
+            <div class="oj-listbox-search-wrapper">
+                <div class="oj-listbox-search"> <input autocomplete="off" autocorrect="off" autocapitalize="off"
+                        spellcheck="false" class="oj-listbox-input" title="Search field" role="combobox" aria-expanded="false"
+                        aria-autocomplete="list" aria-label="Operator list" type="text"> <span class="oj-listbox-spyglass-box">
+                        <span class="oj-component-icon oj-clickable-icon-nocontext oj-listbox-search-icon" role="presentation">
+                            <b role="presentation"></b></span> </span> </div>
+            </div>
+            <ul class="oj-listbox-results" role="listbox" id="oj-listbox-results-operator_condition_0_0"> </ul>
+        </div>
+        <div role="region" class="oj-helper-hidden-accessible oj-listbox-liveregion" aria-live="polite" id="oj-listbox-live-operator_condition_0_0"></div>
+        <select data-oj-internal="" tabindex="-1" style="display: none;" aria-hidden="true" class="oj-component-initnode">
+        </select>
+    </div>
+</oj-select-one>
