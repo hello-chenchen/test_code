@@ -1,4 +1,30 @@
 {
+    "todohighlight.keywords": [
+        {
+            "text": "TODO",
+            "color": "white",
+            "backgroundColor": "orange",
+            "overviewRulerColor": "white"
+        },
+        {
+            "text": "FIXED",
+            "color": "white",
+            "backgroundColor": "green",
+            "overviewRulerColor": "white"
+        },
+        {
+            "text": "LINK",
+            "color": "white",
+            "backgroundColor": "blue",
+            "overviewRulerColor": "white"
+        },
+        {
+            "text": "COMPILE",
+            "color": "white",
+            "backgroundColor": "red",
+            "overviewRulerColor": "white"
+        }
+    ],
     "files.associations": {
         "iostream": "cpp",
         "*.tcc": "cpp",

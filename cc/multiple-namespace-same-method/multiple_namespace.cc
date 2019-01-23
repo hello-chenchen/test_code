@@ -1,3 +1,5 @@
+//COMPILE: g++ multiple_namespace.cc -o main
+
 #include <iostream>
 using namespace std;
 
@@ -16,7 +18,6 @@ namespace second
         cout<<"Hello Sky is high\n";
     }
 }
-
 
 int main(void)
 {
