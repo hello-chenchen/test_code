@@ -24,7 +24,11 @@ class ClipboardX11 : public Clipboard {
         ~ClipboardX11();
 
     public:
+<<<<<<< HEAD
         size_t foo();
+=======
+        int foo();
+>>>>>>> 1120dad925faec1a9751e91ee4188f3297a2dc4e
 };  //class ClipboardX11
 
 }   //namespace cclib

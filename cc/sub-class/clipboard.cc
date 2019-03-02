@@ -19,4 +19,11 @@ Clipboard::Clipboard() {
     flag = -1;
 }
 
+<<<<<<< HEAD
+=======
+Clipboard::~Clipboard() {
+    //TODO:
+}
+
+>>>>>>> 1120dad925faec1a9751e91ee4188f3297a2dc4e
 } //namespace cclib

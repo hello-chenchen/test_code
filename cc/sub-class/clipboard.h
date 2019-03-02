@@ -22,10 +22,17 @@ public:
     virtual ~Clipboard() = 0;
 
 public:
+<<<<<<< HEAD
     virtual size_t foo() = 0;
 
 protected:
     size_t flag;
+=======
+    virtual int foo() = 0;
+
+protected:
+    int flag;
+>>>>>>> 1120dad925faec1a9751e91ee4188f3297a2dc4e
 }; //class clipboard
 
 } //namespace cclib

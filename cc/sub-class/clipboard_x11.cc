@@ -21,8 +21,13 @@ ClipboardX11::~ClipboardX11() {
     //TODO: ClipboardX11
 }
 
+<<<<<<< HEAD
 size_t ClipboardX11::foo() {
     size_t value = flag;
+=======
+int ClipboardX11::foo() {
+    int value = flag;
+>>>>>>> 1120dad925faec1a9751e91ee4188f3297a2dc4e
 
     return value;
 }
