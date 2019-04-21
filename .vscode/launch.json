@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "CodeLens (Launch) - CCClone",
+            "request": "launch",
+            "mainClass": "CCClone",
+            "projectName": "test_code_3860d0b2"
+        },
+        {
             "name": "(Windows) Launch",
             "type": "cppvsdbg",
             "request": "launch",
