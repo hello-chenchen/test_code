@@ -37,11 +37,13 @@ class Money implements Cloneable {
 
     @Override
     protected Money clone() throws CloneNotSupportedException {
-        return (Money) super.clone();
+        Money cloneMoney = (Money) super.clone();
+        cloneMoney.area = this.area.clone();  // 增加Area的拷贝
+        return cloneMoney;
     }
 }
 
-class Area {
+class Area implements Cloneable{
 
     // 钞票单位
     private String unit;
@@ -54,6 +56,11 @@ class Area {
         this.unit = unit;
     }
 
+    @Override
+    protected Area clone() throws CloneNotSupportedException {
+        Area cloneArea = (Area) super.clone();
+        return cloneArea;
+    }
 }
 
 public class CCClone {
@@ -66,14 +73,17 @@ public class CCClone {
         // 原型实例，100RMB的钞票
         Money money = new Money(100, area);
 
-        for (int i = 1; i <= 3; i++) {
-            try {
-                Money cloneMoney = money.clone();
-                cloneMoney.setFaceValue(i * 100);
-                System.out.println("这张是" + cloneMoney.getFaceValue() +  cloneMoney.getArea().getUnit() + "的钞票");
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+        try {
+            Money cloneMoney = money.clone();
+            cloneMoney.setFaceValue(200);
+            area.setUnit("美元");
+
+            System.out.println("原型实例的面值：" + money.getFaceValue() + money.getArea().getUnit());
+            System.out.println("原型实例的面值：" + money.getFaceValue() + area.getUnit());
+            System.out.println("拷贝实例的面值：" + cloneMoney.getFaceValue() + cloneMoney.getArea().getUnit());
+            System.out.println("money.getArea() == cloneMoney.getArea(): " + (money.getArea() == cloneMoney.getArea()));
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
         }
     }
 }
