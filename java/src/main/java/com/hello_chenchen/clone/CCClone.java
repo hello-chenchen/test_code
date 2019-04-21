@@ -1,10 +1,15 @@
-class Money implements Cloneable {
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+class Money implements Serializable {
 
     private int faceValue;
 
     private Area area;
-
-    private String unit;
 
     public int getFaceValue() {
         return faceValue;
@@ -27,23 +32,34 @@ class Money implements Cloneable {
         this.area = area;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
     @Override
     protected Money clone() throws CloneNotSupportedException {
-        Money cloneMoney = (Money) super.clone();
-        cloneMoney.area = this.area.clone();  // 增加Area的拷贝
+        Money cloneMoney = null;
+        try {
+            // 调用deepClone，而不是Object的clone方法
+            cloneMoney = (Money) deepClone();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return cloneMoney;
+    }
+
+    // 通过序列化深拷贝
+    public Object deepClone() throws IOException, ClassNotFoundException {
+        //将对象写到流里
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(this);
+        //从流里读回来
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        return ois.readObject();
     }
 }
 
-class Area implements Cloneable{
+class Area implements Serializable{
 
     // 钞票单位
     private String unit;
@@ -56,11 +72,11 @@ class Area implements Cloneable{
         this.unit = unit;
     }
 
-    @Override
-    protected Area clone() throws CloneNotSupportedException {
-        Area cloneArea = (Area) super.clone();
-        return cloneArea;
-    }
+    // @Override
+    // protected Area clone() throws CloneNotSupportedException {
+    //     Area cloneArea = (Area) super.clone();
+    //     return cloneArea;
+    // }
 }
 
 public class CCClone {
