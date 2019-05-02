@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "projectName": "test_code_3860d0b2"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Test1",
+            "request": "launch",
+            "mainClass": "Test1",
+            "projectName": "test_code_3860d0b2"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - CCClone",
             "request": "launch",
             "mainClass": "CCClone",
