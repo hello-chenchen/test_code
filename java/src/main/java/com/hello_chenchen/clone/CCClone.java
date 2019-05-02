@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 class Money implements Serializable {
-
     private int faceValue;
 
     private Area area;
