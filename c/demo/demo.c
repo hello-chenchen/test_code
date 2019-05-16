@@ -1,16 +1,16 @@
-#include <stdio.h>
-
-int foo(int x)
+#include<stdio.h>
+char *myString()
 {
-    return x&(-x);
+    char buffer[6] = {0};
+    char *s = "Hello World!";
+    for (int i = 0; i < sizeof(buffer) - 1; i++)
+    {
+        buffer[i] = *(s + i);
+    }
+    return s;
 }
-
-int main(int argc, char const *argv[])
+int main(int argc, char **argv)
 {
-    /* code */
-    int b = 2^31;
-    printf("b: %d\n", b);
-    int a = foo(2^31 - 3);
-    printf("a: %d\n", a);
+    printf("%s\n", myString());
     return 0;
 }
