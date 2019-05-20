@@ -1,34 +1,44 @@
 #include <iostream>
 
+using namespace std;
+
+class classA{
+    public:
+        classA(int a) :a(a) {}
+        ~classA() {
+            cout << "~classA" << a << endl;
+        }
+
+    public:
+        int a;
+ };
+
 struct Node {
+    Node(classA* a): data(a) {}
     Node* head;
     Node* tail;
-    int data;
+    classA* data;
 };
 
 void foo() {
-    Node* aa = new Node();
-    Node* bb = new Node();
-    Node* cc = new Node();
-    aa->tail = bb;
-    bb->tail = cc;
+    classA* a = new classA(1);
+    Node* aa = new Node(a);
+    classA* b = new classA(2);
+    Node* bb = new Node(b);
+    classA* c = new classA(3);
+    Node* cc = new Node(c);
+    delete aa->data;
+    delete aa;
+}
 
-    int value = sizeof(Node);
-    int value1 = sizeof(*aa);
-    int value2 = sizeof(bb);
-    int value3 = sizeof(cc);
-    int value4 = cc - aa;
-
-    std::cout << value << std::endl;
-    std::cout << value1 << std::endl;
-    std::cout << value2 << std::endl;
-    std::cout << value3 << std::endl;
-    std::cout << value4 << std::endl;
+classA foo1() {
+    return classA(22);
 }
 
 int main(int argc, char const *argv[])
 {
     /* code */
-    foo();
+    classA c = foo1();
+    cout << c.a << endl;
     return 0;
 }
